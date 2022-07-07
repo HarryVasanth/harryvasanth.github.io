@@ -2,7 +2,7 @@
 layout: post
 title: "GitHub - Source Repository Migations"
 date: 2021-01-28 22:29:01 +00
-categories: git github
+categories: github
 tags:  migration git github
 ---
 
