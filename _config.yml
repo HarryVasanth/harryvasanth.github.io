@@ -29,7 +29,7 @@ description: >-                        # used by seo meta and the atom feed
   Hello, I am Harry. Welcome to my personal home page. Here I write small guides and fixes for various platforms and applications.
 
 # fill in the protocol & hostname for your site, e.g., 'https://username.github.io'
-url: ''
+url: 'https://harryvasanth.github.io'
 
 github:
  username: harryvasanth             # change to your github username
