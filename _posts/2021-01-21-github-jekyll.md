@@ -2,8 +2,8 @@
 layout: post
 title: "Jekyll - The Static Site Generator"
 date: 2021-01-21 21:21:21 +00
-categories: hosting github
-tags: jekyll
+categories:  github
+tags: jekyll hosting
 ---
 
 Jekyll is a static site generator that transforms your plain text into beautiful static web sites and blogs.  It can be use for a documentation site, a blog, an event site, or really any web site you like.
