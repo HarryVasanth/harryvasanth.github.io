@@ -3,7 +3,7 @@ layout: post
 title: "GitHub - Source Repository Migations"
 date: 2021-01-28 22:29:01 +00
 categories: github
-tags:  migration git
+tags:  migration
 ---
 
 I have been looking for a way to migrate a private Git repository to GitHub without losing commit history.
