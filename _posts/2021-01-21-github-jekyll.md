@@ -2,7 +2,7 @@
 layout: post
 title: "Jekyll - The Static Site Generator"
 date: 2021-01-21 21:21:21 +00
-categories: hosting
+categories: hosting github
 tags: jekyll github hosting
 ---
 
