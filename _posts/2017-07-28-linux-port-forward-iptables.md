@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Linux - Port Forward Using IPTables"
-date: 2017-07-28 22:34:02 +00
+date: 2017-07-28 22:34:02 +01
 categories: linux
 tags:  general
 ---

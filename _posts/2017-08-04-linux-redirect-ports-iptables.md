@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Linux - Redirect Ports Using IPTables"
-date: 2017-08-04 23:28:56 +00
+date: 2017-08-04 23:28:56 +01
 categories: linux
 tags:  general
 ---

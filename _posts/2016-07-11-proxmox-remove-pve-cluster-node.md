@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Proxmox - Remove a Node from PVE Cluster"
-date: 2016-07-11 17:38:43 +00
+date: 2016-07-11 17:38:43 +01
 categories: proxmox
 tags:  proxmox-ve
 ---
