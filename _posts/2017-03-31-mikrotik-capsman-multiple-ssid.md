@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Mikrotik - Mutiple SSID with CAPsMAN"
-date: 2017-03-31 09:49:22 +00
+date: 2017-03-31 09:49:22 +01
 categories: mikrotik
 tags:  router-os
 ---

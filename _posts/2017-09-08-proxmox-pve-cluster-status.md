@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Proxmox - Cluster Status"
-date: 2016-01-21 15:24:03 +00
+date: 2016-01-21 15:24:03 +01
 categories: proxmox
 tags:  proxmox-ve
 ---

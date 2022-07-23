@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Linux - Mount An NFS Target"
-date: 2017-10-29 18:55:22 +00
+date: 2017-10-29 18:55:22 +01
 categories: linux
 tags:  general
 ---

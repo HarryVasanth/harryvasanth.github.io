@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Linux - Install phpMyAdmin"
-date: 2016-04-23 08:49:01 +00
+date: 2016-04-23 08:49:01 +01
 categories: linux
 tags:  hosting
 ---

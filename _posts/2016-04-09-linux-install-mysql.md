@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Linux - Install MySQL"
-date: 2016-04-09 14:12:44 +00
+date: 2016-04-09 14:12:44 +01
 categories: linux
 tags:  hosting
 ---
