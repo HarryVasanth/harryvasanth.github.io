@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Linux - Install Apache"
-date: 2016-04-01 02:32:03 +00
+date: 2016-04-01 02:32:03 +01
 categories: linux
 tags:  hosting
 ---

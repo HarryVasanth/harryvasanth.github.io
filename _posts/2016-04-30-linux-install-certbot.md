@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Linux - Install Certbot"
-date: 2016-04-30 09:39:21 +00
+date: 2016-04-30 09:39:21 +01
 categories: linux
 tags:  hosting
 ---

@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Mikrotik - Configure cAP"
-date: 2017-03-01 05:11:29 +00
+date: 2017-03-01 05:11:29 +01
 categories: mikrotik
 tags:  router-os
 ---
