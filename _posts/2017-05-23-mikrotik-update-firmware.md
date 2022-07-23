@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Mikrotik - Update Firmware"
-date: 2017-05-23 11:12:03 +00
+date: 2017-05-23 11:12:03 +01
 categories: mikrotik
 tags:  router-os
 ---

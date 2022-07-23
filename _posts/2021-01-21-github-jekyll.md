@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "GitHub - Jekyll: The Static Site Generator"
-date: 2021-01-21 21:21:21 +00
+date: 2021-01-21 21:21:21 +01
 categories:  github
 tags: jekyll hosting
 ---
