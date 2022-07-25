@@ -14,7 +14,7 @@ In order to host a Demo CAS server, first of all we will need to generate a trus
 
 ### Install docker
 
-Furthermore, we will be running the Demo CAS Server in docker. Hence, we will be needing a working docker installation. You can follow another one of my posts on [Docker - Install and Configure](https://harryvasanth.github.io/posts/docker-install-configure/)
+Furthermore, we will be running the Demo CAS Server in docker. Hence, we will be needing a working docker installation. You can follow another one of my posts on [Docker - Install and Configure](https://harryvasanth.github.io/posts/docker-install-configure/).
 
 ### Obtain the CAS docker image
 
@@ -62,10 +62,10 @@ properties='{
                 "stub": {
                     "attributes": {
                         "cn": "CAS",
-                        "display-name": "Apereo CAS",
-                        "uid": "casuser",
-                        "first-name": "Apereo",
-                        "last-name": "CAS",
+                        "display-name": "Harry Vasanth",
+                        "uid": "harry",
+                        "first-name": "Harry",
+                        "last-name": "Vasanth",
                         "email": "harry@harryvasanth.com"
                     },
                     "id": "Static",
