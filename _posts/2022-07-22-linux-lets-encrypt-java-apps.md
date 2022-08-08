@@ -26,7 +26,7 @@ To use a certificate in a Java application, the preferred way is to add it to a 
 If the system doesn't have JRE installed, you can install it by running the following command:
 
 ```bash
-sudo apt install default-jre
+sudo apt install default-jre jq
 ```
 
 ### Archive certificates to PKCS #12 file
@@ -119,5 +119,5 @@ cp /tmp/cas.harryvasanth.com.keystore $(pwd)/cas.harryvasanth.com.keystore
 The following line in `crontab` makes sure our script is executed every hour.
 
 ```bash
-0 * * * * bash/home/<user.name>/renew-cert-keystore.sh >> /var/log/renew-cert-keystore.log
+0 * * * * yes | bash /home/<user.name>/renew-cert-keystore.sh >> /var/log/renew-cert-keystore.log
 ```
