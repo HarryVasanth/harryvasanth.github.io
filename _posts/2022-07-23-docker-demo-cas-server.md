@@ -112,12 +112,11 @@ docker stop demo-cas-server || true && docker rm demo-cas-server || true
 echo -e "Mapping CAS keystore in Docker container to '$(pwd)/cas.harryvasanth.com.keystore'"
 
 docker run --rm -d \
-        --mount type=bind,source="$(pwd)/cas.harryvasanth.com.keystore",target=/etc/cas/thekeystore
- \
+        --mount type=bind,source="$(pwd)/cas.harryvasanth.com.keystore",target=/etc/cas/thekeystore \
   -e SPRING_APPLICATION_JSON="${properties}" \
   -p 8444:8443 --name demo-cas-server apereo/cas:6.4.0
 
-docker logs -f demo-cas-server &
+#docker logs -f demo-cas-server &
 echo -e "Waiting for CAS Server to Initialize..."
 until curl -k -L --output /dev/null --silent --fail https://cas.harryvasanth.com:8444/cas/login; do
   echo -n .
