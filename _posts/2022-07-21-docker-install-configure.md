@@ -14,7 +14,7 @@ First, install docker prerequisites:
 
 ```bash
 sudo apt update
-sudo apt install apt-transport-https ca-certificates curl software-properties-common
+sudo apt install apt-transport-https ca-certificates curl software-properties-common gnupg
 ```
 
 Then add the official Docker repository to `APT` sources and install docker:
