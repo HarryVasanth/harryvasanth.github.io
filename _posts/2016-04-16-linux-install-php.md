@@ -25,7 +25,7 @@ sudo apt install php-cli
 Open the `dir.conf` file to prioritize PHP extensions over standard ones:
 
 ```bash
-sudo vim /etc/apache2/mods-enabled/dir.conf
+sudo vim /etc/apache2/mods-available/dir.conf
 ```
 
 It should look like this:

@@ -13,6 +13,14 @@ Use `apt` to install MySQL server:
 sudo apt install mysql-server
 ```
 
+```shell
+sudo mysql
+```
+
+```sql
+mysql> ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'new_password';
+```
+
 Start the interactive script by running:
 
 ```shell
