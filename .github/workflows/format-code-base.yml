@@ -1,0 +1,23 @@
+name: Format Code Base
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+
+jobs:
+  format-code-base:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 🐧 Checkout
+        uses: actions/checkout@v2
+
+      - name: 💄 Run Prettier
+        uses: creyD/prettier_action@v4.2
+        with:
+          prettier_options: --write **/*.{js,md,yml}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          
