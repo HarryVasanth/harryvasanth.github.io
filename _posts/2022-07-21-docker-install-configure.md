@@ -3,7 +3,7 @@ layout: post
 title: "Docker - Install and Configure"
 date: 2022-07-21 12:01:20 +01
 categories: docker
-tags:  cas
+tags: hosting
 ---
 
 ## Installation
