@@ -8,7 +8,7 @@ tags:  proxmox-ve
 
 ## Why?
 
-When installing proxmox from iso its give a lot storage to `pve-data` which is a `volume-storage` and not a lot for `pve-root`, and `pve-root` it’s where your filesystem is mounted.
+When installing proxmox from iso its give a lot storage to `pve-data` which is a `volume-storage` and not a lot for `pve-root`, and `pve-root` it’s where your filesystem is mounted. 
 
 ## Check current storage
 
