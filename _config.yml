@@ -29,10 +29,10 @@ description: >- # used by seo meta and the atom feed
 url: "https://harryvasanth.github.io"
 
 github:
-  username: github_username # change to your github username
+  username: harryvasanth # change to your github username
 
 twitter:
-  username: twitter_username # change to your twitter username
+  username: harryvasanth # change to your twitter username
 
 social:
   # Change to your full name.
@@ -45,7 +45,7 @@ social:
     - https://github.com/harryvasanth # change to your github homepage
     # Uncomment below to add more social links
     # - https://www.facebook.com/username
-    # - https://www.linkedin.com/in/username
+    - https://www.linkedin.com/in/harryharasuthan
 
 google_site_verification: # fill in to your verification string
 
@@ -53,7 +53,7 @@ google_site_verification: # fill in to your verification string
 # The end of `jekyll-seo-tag` settings
 
 google_analytics:
-  id: # fill in your Google Analytics ID
+  id: G-79VM7CLWX2 # fill in your Google Analytics ID
   # Google Analytics pageviews report settings
   pv:
     proxy_endpoint: # fill in the Google Analytics superProxy endpoint of Google App Engine
