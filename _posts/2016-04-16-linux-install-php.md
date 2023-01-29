@@ -75,6 +75,7 @@ phpinfo();
 ?>
 ```
 
+
 Now we can check the ouput via the browser by going to your domain/ip:
 
 `http://your_domain/phpinfo.php` or `http://your_ip/phpinfo.ph`
