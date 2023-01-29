@@ -18,5 +18,7 @@ jobs:
         uses: creyD/prettier_action@v4.2
         with:
           prettier_options: --write **/*.{js,json,css,yml}
+          commit_message: "chore(codebase): format with prettier"
+          commit_options: "--author=HarryVasanth <hello@harryvasanth.com>"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
