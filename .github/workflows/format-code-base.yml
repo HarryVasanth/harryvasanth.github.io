@@ -12,10 +12,10 @@ jobs:
 
     steps:
       - name: 🐧 Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: 💄 Run Prettier
-        uses: creyD/prettier_action@v4.2
+        uses: creyD/prettier_action@v4.3
         with:
           prettier_options: --write **/*.{js,json,css,yml}
           commit_message: "chore(codebase): format with prettier"
