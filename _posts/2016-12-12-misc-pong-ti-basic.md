@@ -1,12 +1,12 @@
 ---
 layout: post
-title: "Misc - Pong for TI-84"
-date: 2016-12-12 14:39:19 +00:01
+title: "Misc - Pong for TI-84 (ti-basic)"
+date: 2016-12-11 14:39:29 +00:01
 categories: misc
 tags: ti-basic
 ---
 
-# TI-84 Pong Game Tutorial
+## Introduction
 
 In this tutorial, I'll guide you through the process of creating a simple Pong game for the TI-84 calculator using TI-BASIC. Pong is a classic arcade game that involves two paddles and a ball. The objective is to bounce the ball back and forth between the paddles, scoring points when the opponent misses the ball.
 
