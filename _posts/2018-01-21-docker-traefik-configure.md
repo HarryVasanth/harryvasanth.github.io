@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Docker - Install Traefik"
+title: "Docker - Traefik Configuration"
 date: 2018-01-21 21:48:12 +01
 categories: docker
 tags: traefik hosting
@@ -10,7 +10,7 @@ tags: traefik hosting
 
 ### Install Docker
 
-Ensure you have a working Docker installation on your server. If not, follow my guide on [Docker - Install and Configure](https://yourwebsite.com/docker-install-configure/).
+Ensure you have a working Docker installation on your server. If not, follow my guide on [Docker - Install and Configure](https://harryvasanth.com/posts/docker-install-config/).
 
 ### Set up Traefik
 
