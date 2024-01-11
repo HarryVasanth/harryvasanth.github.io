@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Proxmox - Increase VM Disk Size"
-date: 2016-03-31 12:11:15 +01
+date: 2016-09-31 12:11:15 +01
 categories: proxmox
 tags:  proxmox-ve
 ---
