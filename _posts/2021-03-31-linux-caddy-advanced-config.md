@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Caddy - Advanced Configuration with Rate Limiting and More"
+title: "Linux - Caddy: Advanced Configuration"
 date: 2021-03-31 12:03:44 +01
 categories: linux
 tags: caddy hosting
