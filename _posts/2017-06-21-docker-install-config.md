@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Docker - Install and Configure"
-date: 2022-06-21 12:01:20 +01
+date: 2017-06-21 12:01:20 +01
 categories: docker
 tags: hosting
 ---
