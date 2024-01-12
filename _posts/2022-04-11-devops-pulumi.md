@@ -1,7 +1,7 @@
 ---
 layout: post
-title: "Pulumi - Infrastructure as Code"
-date: 2022-04-13 15:49:55 +01
+title: "DevOps - Pulumi"
+date: 2022-04-11 15:49:55 +01
 categories: devops
 tags: pulumi iac
 ---
