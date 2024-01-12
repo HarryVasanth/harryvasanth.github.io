@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Linux - Syslog-ng"
-date: 2018-03-26 12:00:00 +00
+date: 2018-03-23 18:29:11 +01
 categories: linux
 tags: syslog-ng logs
 ---
