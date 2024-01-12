@@ -1,7 +1,7 @@
 ---
 layout: post
-title: "Syslog-ng - Comprehensive Guide"
-date: 2018-03-27 12:00:00 +00
+title: "Linux - Syslog-ng"
+date: 2018-03-26 12:00:00 +00
 categories: linux
 tags: syslog-ng logs
 ---
