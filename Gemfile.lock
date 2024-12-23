@@ -38,22 +38,22 @@ GEM
       fiber-storage
     fiber-storage (0.1.0)
     forwardable-extended (2.6.0)
-    google-protobuf (4.29.1)
+    google-protobuf (4.29.2)
       bigdecimal
       rake (>= 13)
-    google-protobuf (4.29.1-aarch64-linux)
+    google-protobuf (4.29.2-aarch64-linux)
       bigdecimal
       rake (>= 13)
-    google-protobuf (4.29.1-arm64-darwin)
+    google-protobuf (4.29.2-arm64-darwin)
       bigdecimal
       rake (>= 13)
-    google-protobuf (4.29.1-x86-linux)
+    google-protobuf (4.29.2-x86-linux)
       bigdecimal
       rake (>= 13)
-    google-protobuf (4.29.1-x86_64-darwin)
+    google-protobuf (4.29.2-x86_64-darwin)
       bigdecimal
       rake (>= 13)
-    google-protobuf (4.29.1-x86_64-linux)
+    google-protobuf (4.29.2-x86_64-linux)
       bigdecimal
       rake (>= 13)
     hashery (2.1.2)
@@ -99,7 +99,7 @@ GEM
       jekyll (>= 3.8, < 5.0)
     jekyll-sitemap (1.4.0)
       jekyll (>= 3.7, < 5.0)
-    jekyll-theme-chirpy (7.2.3)
+    jekyll-theme-chirpy (7.2.4)
       jekyll (~> 4.3)
       jekyll-archives (~> 2.2)
       jekyll-include-cache (~> 0.2)
