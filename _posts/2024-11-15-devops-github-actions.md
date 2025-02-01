@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Comprehensive DevOps Guide: CI/CD Pipeline with GitHub Actions"
+title: "DevOps - CI/CD Pipeline with GitHub Actions"
 date: 2024-11-15 14:21:11 +01
 categories: devops github
 tags: ci-cd pipelines github-actions
