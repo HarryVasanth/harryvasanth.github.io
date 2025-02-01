@@ -1,4 +1,4 @@
-name: Format Code Base
+name: 💅 Format Code Base
 
 on:
   push:
