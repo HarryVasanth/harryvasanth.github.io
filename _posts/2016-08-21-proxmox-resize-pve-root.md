@@ -3,7 +3,7 @@ layout: post
 title: "Proxmox - Resize PVE Root"
 date: 2016-08-21 15:24:03 +01
 categories: proxmox
-tags:  proxmox-ve
+tags: proxmox-ve
 ---
 
 ## Why?

@@ -2,7 +2,7 @@
 layout: post
 title: "DevOps - CI/CD Pipeline with GitHub Actions"
 date: 2024-11-15 14:21:11 +01
-categories: devops github
+categories: devops github-actions
 tags: ci-cd pipelines github-actions
 ---
 

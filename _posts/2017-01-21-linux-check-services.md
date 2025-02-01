@@ -3,7 +3,7 @@ layout: post
 title: "Linux - Check Services"
 date: 2017-01-21 00:00:00 +01
 categories: linux
-tags:  general
+tags: general
 ---
 
 This script is to check if a service is running. If not, restarts the service and send an email to a specific recipient.

@@ -2,8 +2,8 @@
 layout: post
 title: "Linux - Install Certbot"
 date: 2016-09-30 09:39:21 +01
-categories: linux
-tags:  hosting
+categories: linux letsencrypt
+tags: hosting
 ---
 
 ## Installation

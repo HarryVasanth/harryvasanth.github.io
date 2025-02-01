@@ -2,7 +2,7 @@
 layout: post
 title: "Linux - Install Caddy Web Server"
 date: 2021-02-14 01:42:22 +01
-categories: linux
+categories: linux caddy
 tags: caddy hosting
 ---
 

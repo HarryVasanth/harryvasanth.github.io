@@ -2,8 +2,8 @@
 layout: post
 title: "Linux - Install Fail2ban"
 date: 2017-02-14 17:02:14 +01
-categories: linux
-tags:  hosting
+categories: linux hosting
+tags: hosting
 ---
 
 ## Installation

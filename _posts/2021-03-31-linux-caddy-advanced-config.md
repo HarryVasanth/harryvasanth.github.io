@@ -2,7 +2,7 @@
 layout: post
 title: "Linux - Caddy: Advanced Configuration"
 date: 2021-03-31 12:03:44 +01
-categories: linux
+categories: linux caddy
 tags: caddy hosting
 ---
 

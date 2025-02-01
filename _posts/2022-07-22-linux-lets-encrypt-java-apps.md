@@ -2,7 +2,7 @@
 layout: post
 title: "Linux - Let's Encrypt for Java Apps"
 date: 2022-07-22 19:12:22 +01
-categories: linux
+categories: linux letsencrypt
 tags:  hosting
 ---
 ## Intro

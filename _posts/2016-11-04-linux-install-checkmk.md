@@ -2,7 +2,7 @@
 layout: post
 title: "Linux - Install Checkmk"
 date: 2016-11-04 11:20:09 +01
-categories: linux
+categories: linux logs
 tags: checkmk
 ---
 

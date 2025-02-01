@@ -2,7 +2,7 @@
 layout: post
 title: "DevOps - Pulumi"
 date: 2023-05-11 15:49:55 +01
-categories: devops
+categories: devops iac
 tags: pulumi iac
 ---
 

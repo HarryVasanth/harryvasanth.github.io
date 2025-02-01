@@ -2,8 +2,8 @@
 layout: post
 title: "Linux - Secure SSH with Fail2ban, Key Authentication, and Advanced Security Practices"
 date: 2024-12-01 11:32:07 +01
-categories: linux
-tags: security fail2ban hosting
+categories: linux hosting
+tags: security fail2ban 
 ---
 
 ## Intro

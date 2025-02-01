@@ -2,7 +2,7 @@
 layout: post
 title: "Linux - RSyslog"
 date: 2018-04-18 17:21:03 +01
-categories: linux
+categories: linux logs
 tags: rsyslog logs
 ---
 

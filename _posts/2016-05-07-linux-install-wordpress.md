@@ -2,7 +2,7 @@
 layout: post
 title: "Linux - Install WordPress"
 date: 2016-05-07 13:37:00 +01
-categories: linux
+categories: linux hosting
 tags:  hosting
 ---
 

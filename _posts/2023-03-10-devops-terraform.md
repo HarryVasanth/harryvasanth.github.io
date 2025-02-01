@@ -2,7 +2,7 @@
 layout: post
 title: "DevOps - Terraform"
 date: 2023-03-10 22:10:41 +01
-categories: devops
+categories: devops iac
 tags: terraform iac
 ---
 

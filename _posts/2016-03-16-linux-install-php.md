@@ -2,7 +2,7 @@
 layout: post
 title: "Linux - Install PHP"
 date: 2016-03-16 11:09:12 +01
-categories: linux
+categories: linux hosting
 tags:  hosting
 ---
 

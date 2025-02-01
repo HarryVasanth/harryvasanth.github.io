@@ -2,7 +2,7 @@
 layout: post
 title: "Linux - Install Ventoy"
 date: 2017-12-18 22:57:11 +01
-categories: linux
+categories: linux ventoy
 tags: ventoy
 ---
 

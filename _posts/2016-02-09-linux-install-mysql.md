@@ -2,7 +2,7 @@
 layout: post
 title: "Linux - Install MySQL"
 date: 2016-02-09 14:12:44 +01
-categories: linux
+categories: linux hosting
 tags:  hosting
 ---
 
