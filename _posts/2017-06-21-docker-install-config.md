@@ -17,12 +17,10 @@ sudo apt update
 sudo apt install apt-transport-https ca-certificates curl software-properties-common gnupg
 ```
 
-Then add the official Docker repository to `APT` sources and install docker:
+Get and run the docker setup script to install docker:
 
 ```bash
-curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu focal stable"
-sudo apt install docker-ce
+curl -fsSL https://get.docker.com -o get-docker.sh && sh get-docker.sh
 ```
 
 ## Configuration
