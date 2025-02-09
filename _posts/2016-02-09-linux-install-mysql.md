@@ -3,10 +3,11 @@ layout: post
 title: "Linux - Install MySQL"
 date: 2016-02-09 14:12:44 +01
 categories: linux hosting
-tags:  hosting
+tags: hosting mysql
 ---
 
 ## Installation
+
 Use `apt` to install MySQL server:
 
 ```shell
