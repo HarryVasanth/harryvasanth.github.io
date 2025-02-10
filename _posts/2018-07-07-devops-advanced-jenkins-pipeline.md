@@ -18,7 +18,7 @@ Parallel execution reduces build time by running multiple stages simultaneously.
 
 ### **Jenkinsfile Example**
 
-```
+```groovy
 pipeline {
     agent any
     stages {
@@ -67,7 +67,7 @@ You can capture the output of shell commands using the `sh(returnStdout: true)` 
 
 ### **Jenkinsfile Example**
 
-```Jenkinsfile
+```groovy
 pipeline {
     agent any
     stages {
@@ -96,7 +96,7 @@ Scripted pipelines offer more flexibility than declarative pipelines, allowing y
 
 ### **Jenkinsfile Example**
 
-```Jenkinsfile
+```groovy
 node {
     stage('Dynamic Build') {
         def pythonVersion = sh(returnStdout: true, script: 'python3 --version').trim()
@@ -148,7 +148,7 @@ def runTests() {
 
 ### **Jenkinsfile Example**
 
-```Jenkinsfile
+```groovy
 @Library('my-library') _
 
 pipeline {
@@ -185,7 +185,7 @@ Implement deployment strategies like blue-green or canary deployments using Jenk
 
 ### **Blue-Green Deployment Example**
 
-```Jenkinsfile
+```groovy
 pipeline {
     agent any
     stages {
@@ -224,7 +224,7 @@ Matrix builds allow testing across multiple configurations, such as Python versi
 
 ### **Jenkinsfile Example**
 
-```Jenkinsfile
+```groovy
 pipeline {
     agent any
     stages {
