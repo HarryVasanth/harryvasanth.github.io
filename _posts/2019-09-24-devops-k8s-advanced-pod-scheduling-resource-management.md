@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "DevOps - Kubernetes: Advanced Pod Scheduling and Resource Management"
-date: 2019-03-24 14:50:37 +01
+date: 2019-09-24 14:50:37 +01
 categories: devops kubernetes
 tags: kubernetes pod-scheduling resource-management
 ---
