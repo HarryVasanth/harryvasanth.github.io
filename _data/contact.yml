@@ -11,8 +11,8 @@
   icon: "fas fa-rss"
   noblank: true
 - type: mastodon
-  icon: 'fab fa-mastodon'   # icons powered by <https://fontawesome.com/>
-  url:  'https://mastodon.social/@harryvasanth' # Fill with your mastodon account page
+  icon: "fab fa-mastodon" # icons powered by <https://fontawesome.com/>
+  url: "https://mastodon.social/@harryvasanth" # Fill with your mastodon account page
 
 # Uncomment and complete the url below to enable more contact options
 # -
