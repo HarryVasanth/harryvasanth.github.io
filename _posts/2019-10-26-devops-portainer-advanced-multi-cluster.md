@@ -274,4 +274,4 @@ Apply it via the Kubernetes environment in Portainer.
 
 ## Conclusion
 
-Portainer empowers DevOps engineers with advanced capabilities for managing multi-cluster environments, automating workflows, securing deployments, and integrating GitOps principles—all through an intuitive interface or its powerful API. By leveraging these advanced features, you can streamline container orchestration across Docker, Kubernetes, and hybrid environments while ensuring security and scalability.
+Portainer empowers DevOps engineers with advanced capabilities for managing multi-cluster environments, automating workflows, securing deployments, and integrating GitOps principles-all through an intuitive interface or its powerful API. By leveraging these advanced features, you can streamline container orchestration across Docker, Kubernetes, and hybrid environments while ensuring security and scalability.

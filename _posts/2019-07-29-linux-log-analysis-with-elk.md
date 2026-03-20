@@ -8,7 +8,7 @@ tags: elk-stack log-analysis
 
 ## Intro
 
-The **ELK Stack**—comprising Elasticsearch, Logstash, and Kibana—is a powerful suite for managing, analyzing, and visualizing log data. It provides a scalable solution for centralizing logs from multiple sources, parsing and enriching them, and creating actionable insights through visualizations. This guide explores **advanced concepts** in implementing the ELK stack for log analysis, including multi-source ingestion, custom pipelines, index management, and security best practices to help you build a robust log analysis system.
+The **ELK Stack**-comprising Elasticsearch, Logstash, and Kibana-is a powerful suite for managing, analyzing, and visualizing log data. It provides a scalable solution for centralizing logs from multiple sources, parsing and enriching them, and creating actionable insights through visualizations. This guide explores **advanced concepts** in implementing the ELK stack for log analysis, including multi-source ingestion, custom pipelines, index management, and security best practices to help you build a robust log analysis system.
 
 ---
 
@@ -294,4 +294,4 @@ curl -X GET "localhost:9200/_cluster/health?pretty"
 
 ## Conclusion
 
-The ELK Stack provides a comprehensive solution for centralized log analysis, enabling you to ingest logs from multiple sources, enrich data with filters, manage indices effectively, and visualize insights through Kibana dashboards. By following these advanced techniques—including custom pipelines, index lifecycle management, and security best practices—you can build a scalable and secure logging architecture tailored to your needs.
+The ELK Stack provides a comprehensive solution for centralized log analysis, enabling you to ingest logs from multiple sources, enrich data with filters, manage indices effectively, and visualize insights through Kibana dashboards. By following these advanced techniques-including custom pipelines, index lifecycle management, and security best practices-you can build a scalable and secure logging architecture tailored to your needs.
