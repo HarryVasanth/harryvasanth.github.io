@@ -13,7 +13,7 @@ Every educational platform that runs learner code needs a grading engine. The en
 
 The runner sits quietly behind the API. Learners never talk to it directly and most of them do not know it exists. Yet it is the most load-bearing piece of infrastructure we run. Every exercise, every learner, and every submission flows through it. When the runner has a bad day, the whole platform has a bad day, and so does every learning centre and every learner who happens to be using it at that moment.
 
-This post is the story of how we rebuilt that service. It is not a story about rewriting something for fun. It is a story about a production service that worked, that grew organically over several years, and that slowly accumulated the kind of problems that only show up under real load. We found those problems one at a time, fixed most of them with small surgical changes, and learned a hard lesson when one large rewrite backfired.
+This post is the story of how we rebuilt that service. It is not a story about rewriting something for fun. It is a story about a production service that worked, that grew organically over several years, and that slowly accumulated the kind of problems that only show up under real load. We found those problems one at a time, fixed most of them with small surgical changes, and learned a hard lesson when one large rewrite backfired. We also learned that a failed rewrite does not invalidate every idea inside it.
 
 Before we get to the fixes, it helps to understand exactly what the runner does and how a submission becomes a result.
 
@@ -61,7 +61,7 @@ The first is `singleflight`, from the `golang.org/x/sync` package. The name desc
 
 The second fix was about the lock itself. We changed the logic to check the image age under a short lock, release the lock immediately, and only then start the pull. The lock now protects a map lookup, which takes nanoseconds, instead of a network operation, which takes seconds. This is the check-then-act pattern, and it matters here because the pull can safely happen outside the lock.
 
-We also added a fallback for the moments when a pull fails. If the registry is unreachable, or the pull times out, but the service already has an older copy of the image on disk, the runner uses that copy instead of failing the request. A registry outage no longer takes down every exercise in the platform; the worst case is that learners run against a slightly older version of the tests for a minute or two.
+We also added a fallback for the moments when a pull fails. If the registry is unreachable, or the pull times out, but the service already has an older copy of the image on disk, the runner uses that copy instead of failing the request. A registry outage no longer takes down every exercise in the platform; the worst case is that learners run against a slightly older version of the tests for a minute or two. The pull itself now has a five-minute deadline, and a failed pull is remembered for a minute so a broken registry is not hammered by every request.
 
 ## Problem 2: Unbounded Container Creation
 
@@ -71,7 +71,7 @@ Each of those containers reserves memory, CPU, and PIDs on the host. Docker is e
 
 The fix is a classic Go pattern: a buffered channel used as a semaphore. The channel has a fixed capacity, and before the runner starts real work on a request, it tries to put a token into the channel. If the channel is full, the request waits. When the request finishes, it releases the token and lets the next one in.
 
-It is a simple pattern, and it gives us a hard ceiling on concurrency. The ceiling is configurable through the `MAX_PARALLEL` environment variable, which matters because the right number depends on the host. We started optimistically at 100, watched the host begin to struggle, and walked it back to 2. Two running containers at a time is a conservative number, but the runner is fast, and the queue drains quickly. It is much better to have a small, stable queue than to have the host fall over.
+It is a simple pattern, and it gives us a hard ceiling on concurrency. The ceiling is configurable through the `MAX_PARALLEL` environment variable, which matters because the right number depends on the host. We started optimistically at 100, watched the host begin to struggle, and walked it back to 2. Two running containers at a time is a conservative number, but the runner is fast, and the queue drains quickly. It is much better to have a small, stable queue than to have the host fall over. The value is now clamped as well: an invalid value falls back to 2, and anything above 64 is capped at 64, so a typo cannot remove the ceiling.
 
 ## Problem 3: The Zip Bomb
 
@@ -86,7 +86,9 @@ The fix was a pair of guards placed before any extraction happens:
 
 The first guard stops an archive that contains a ridiculous number of tiny files, which is its own kind of resource exhaustion. The second guard stops an archive that claims an absurd amount of decompressed data. Both checks read only the ZIP central directory, which is cheap, so they run before we spend any real effort.
 
-The interesting part was the tuning. We started with a strict limit of 32 files, which felt generous for a typical exercise submission. It was not. Real learner repositories routinely contain more than 32 files, and once the limit went live, legitimate submissions started failing. So we raised it to 1024 files and kept the 256MB uncompressed-size cap. The combination has been quiet ever since, which is a good reminder that validation limits are not abstract numbers. They need to be calibrated against real usage.
+The interesting part was the tuning. We started with a strict limit of 32 files, which felt generous for a typical exercise submission. It was not. Real learner repositories routinely contain more than 32 files, and once the limit went live, legitimate submissions started failing. So we raised it to 1024 files and kept the 256MB uncompressed-size cap. The combination stopped the obvious zip bomb, and it has been quiet since. That is a good reminder that validation limits are not abstract numbers. They need to be calibrated against real usage.
+
+But quiet was not the same as safe. The guards checked the declared size before extraction. They did not change where the extracted data went. The runner still built the whole TAR in memory, and a 1MB archive could legitimately declare 256MB of files. That is a 256-fold amplification from a request that passed every check. We come back to this in the section on the memory audit.
 
 ## Problem 4: A Panic Killed the Service
 
@@ -113,9 +115,11 @@ We hardened the test container configuration across several dimensions:
 
 Together, these options give us a fairly tight box. The code can compute, but it cannot reach the network, cannot write to the filesystem it runs on, cannot spawn unbounded processes, and cannot escalate privileges. That is the correct posture for a service whose entire purpose is to run code it does not trust.
 
-There is an honest caveat to this section. The hardening was not free. After we enabled the capability drops, some test images stopped working, because they relied on capabilities that we had removed. We had a choice: keep the hardening and fix every affected image, or relax the hardening and keep everything working. We chose pragmatism. The capability drop and the privilege flag were commented out with a note explaining why, and fixing the affected images became a tracked work item.
+There is an honest caveat to this section. The hardening was not free. After we enabled the capability drops, some test images stopped working, because they relied on capabilities that we had removed. At the time, we chose pragmatism. The capability drop and the privilege flag were commented out with a note explaining why, and fixing the affected images became a tracked work item.
 
-The lesson here is that security hardening is not a switch you flip once. It is an ongoing conversation between the platform and the images that run on it. The configuration we want is the strict one. The configuration we shipped, temporarily, is the compatible one, and we are working our way back.
+That work is now done. The strict configuration is back: all capabilities dropped, `no-new-privileges` on for every normal image, no network, read-only root, and the same memory, CPU, and PID limits. There is one narrow exception. A small family of shell test images runs a local HTTPS server on port 443, and that needs one capability, `NET_BIND_SERVICE`. Those images also skip `no-new-privileges`, because the file capability would not work with it. The exception matches a short allowlist of trusted registries and exact image names. It is not a general escape hatch, and every other image gets the full drop.
+
+The lesson here is that security hardening is not a switch you flip once. It is an ongoing conversation between the platform and the images that run on it. The configuration we want is now the default. The exception is written down, limited, and tested.
 
 ## Problem 6: The Logs Told Us Nothing
 
@@ -171,15 +175,41 @@ Production did not agree. A week later, we pulled the whole thing out and went b
 
 It is worth being honest about what this episode taught us, because it is the most interesting lesson in this whole post. The rewrite was not bad code. It was risky in exactly the way that large changes to timing and streaming behaviour are always risky. A service under load behaves differently from a service in a staging environment, and a rewrite that changes when bytes are read, how they flow, and what happens on cancellation changes behaviour in ways that are hard to predict from reading the code.
 
-From there, we rebuilt in small steps. The good ideas from the rewrite did not die with it. Pieces like the named constants and the output cap can be reintroduced one at a time, each with its own review and its own observation period.
+From there, we rebuilt in small steps. The good ideas from the rewrite did not die with it. Pieces like the named constants and the output cap came back one at a time, each with its own review and its own observation period. One of them came back sooner than we expected.
+
+## The Stream That Came Back
+
+The memory audit gave the streaming idea a second chance.
+
+The audit started with a simple question: what does a request cost before the test container starts? The upload was capped at 1MB. The uncompressed size was capped at 256MB. Both limits were correct, and both had been tested. What nobody had measured was the TAR archive in the middle. The runner unpacked the ZIP, rebuilt every file as a TAR entry, and held the whole TAR in a `bytes.Buffer` until Docker copied it into the volume.
+
+That buffer was the problem. A 1MB ZIP could legally expand to 256MB of files, and the runner would hold all 256MB in memory before the container existed. With the default of two parallel requests, that is half a gigabyte. At the allowed maximum of 64, it is about 16GB. The runner container had no memory limit, so the host could be pushed into the kernel OOM killer. Every in-flight test on the runner would fail with it. The zip bomb guards were working exactly as designed, and the service was still one small upload away from a bad day.
+
+The fix was the streaming conversion from the failed rewrite, and nothing else. We changed the extractor to write each TAR entry straight into an `io.Pipe`. The Docker client reads from the other end and sends the bytes to the volume. The validation stayed where it was: entry count, total uncompressed size, path cleaning, traversal checks, regular files only, and an exact size check for every entry. The only thing that changed was the destination. The archive no longer lands in a buffer.
+
+The memory cost is now roughly the upload itself plus a small copy buffer for the current file. The 256MB cap still protects the disk and the test environment, but it no longer describes how much memory a request can reserve. We tested the change with a 64MB file that compressed to about 64KB. The old code would have held the whole 64MB. The new code streamed it, ran the test, and returned the expected result.
+
+That is the lesson of the rewrite, stated more precisely than we could state it at the time. The rewrite failed as a package. It did not fail as a set of ideas. Streaming was right; changing the structure, the timing, and the cancellation model at the same time was wrong. The second time, we changed one thing.
+
+## The Edge-Case Pass
+
+The happy path was never the whole job. A service that runs untrusted files has to be boring at the edges, because the edges are where the strange files arrive.
+
+The upload limit now returns a clear `upload too large` message instead of a generic read failure. The ZIP reader strips leading slashes, cleans every path, rejects `..`, skips symlinks and devices, and requires every entry to produce exactly the number of bytes it declared. These are small checks, but they are the difference between a parser and a liability.
+
+Every Docker call has a deadline: 30 seconds for normal calls, two minutes for the copy, five minutes for a pull, and 30 seconds for the test. A stuck daemon returns an error with the step name instead of holding a slot forever. A container wait error is returned to the caller; it no longer panics.
+
+Startup cleanup moved out of package initialisation and into the server binary. Before, running `go test` could delete the containers and volumes of a live runner on the same Docker daemon. Now tests leave live resources alone, and only the server performs cleanup at start. The HTTP server also has a 10-second header timeout, 15-minute read and write timeouts, and a one-minute idle timeout. The long read and write windows cover the queue and the image pull; the short header and idle timeouts cover the cheap cases.
 
 ## The Supporting Work
 
 Not everything in this effort was about the hot path. Several changes improved the service without touching the request flow at all.
 
-The Dockerfile got a long-overdue cleanup. We tightened the multi-stage build, copied only the dependency files before downloading modules so the layer cache actually works, and added `-s -w` flags to strip debug information from the binary. The result is a smaller image and faster rebuilds. We also trimmed the base image by installing the timezone data, copying the UTC zone, and removing it again, so the final image carries no dead weight.
+The Dockerfile got a long-overdue cleanup. We tightened the multi-stage build, copied only the dependency files before downloading modules so the layer cache actually works, and added `-s -w` flags to strip debug information from the binary. The result is a smaller image and faster rebuilds. We also trimmed the base image by installing the timezone data, copying the UTC zone, and removing it again, so the final image carries no dead weight. The base tags stay on `golang:1-alpine` and `alpine:3` on purpose. Both projects keep backwards compatibility, and we prefer to stay current, so the tags stay floating. The trade-off is a base image that can move without a commit; we accept it.
 
-The Go version and its dependencies were bumped on a schedule. Over the course of the effort we moved from Go 1.22 to 1.26, handled a deprecation in the Docker client API, and let dependabot keep the transitive dependencies current. None of these changes is exciting, and all of them are necessary. A service that runs untrusted code cannot afford to sit on outdated dependencies.
+The Go version and its dependencies were bumped on a schedule. Over the course of the effort we moved from Go 1.22 to 1.27, handled a deprecation in the Docker client API, and let dependabot keep the transitive dependencies current. The direct Docker client and `x/sync` dependencies are on their current releases. None of these changes is exciting, and all of them are necessary. A service that runs untrusted code cannot afford to sit on outdated dependencies.
+
+The test suite grew with the work. It covers the ZIP shapes we see in practice, path traversal, absolute paths, symlinks, size mismatches, the image cache, the capability mapping, and the error paths. The count is 28 tests, run with the race detector. CI runs the build, `go vet`, and the race tests on every push. That is not a large suite for a service this small, but it is enough to catch the mistakes that matter.
 
 We also ran `shellcheck` against the deployment scripts and fixed everything it flagged. It is a small thing, but the scripts are the surface that operators touch, and clean, consistent scripts are part of operational hygiene.
 
@@ -190,13 +220,15 @@ Looking back at the whole effort, these are the lessons that stuck.
 1. **Fix one problem at a time.** Small, targeted changes are easy to review, easy to reason about, and easy to undo when they are wrong. Almost every good change in this project was small.
 2. **Tune with data, not guesses.** The parallelism default went from 100 to 2 because we watched the host. The timeout settled at 30 seconds because exercises told us so. Both numbers came from observation, not intuition.
 3. **Deduplicate shared work.** `singleflight` turned an image pull stampede into a single shared request. If several callers want the same expensive result, let one of them compute it.
-4. **Validate input before doing work.** The zip bomb guards run before any extraction. Validation that happens after the damage is validation that does not matter.
+4. **Validate input before doing work, and check where the work goes.** The zip bomb guards ran before extraction, but the TAR buffer still held the expansion. The limit and the destination both matter.
 5. **Never trust a panic.** Recover at the boundary, log what happened, and return a clean error. A process that survives one bad request is a service that can keep serving the next thousand.
 6. **Log the metadata.** A request ID without the user, the exercise, and the image is not enough to debug anything.
-7. **A big rewrite is a bet.** Incremental changes shipped and survived. The grand rewrite did not survive a week. Be suspicious of your own ambition.
+7. **A big rewrite is a bet.** The grand rewrite did not survive a week, but one of its ideas did. Ship the idea alone next time.
+8. **Measure the memory, not only the bytes on the wire.** A 1MB upload can cost 256MB of memory if the code expands it before it uses it.
+9. **A failed rewrite does not invalidate its good pieces.** The streaming change failed as part of a large rewrite and worked as a small one.
 
 ## Summary
 
-The runner is the silent gatekeeper of every submission in our curriculum. It started life as a monolithic function with hidden production problems, and it grew into a service that needed attention. The refactoring fixed concurrency, security, input validation, and observability in small, deliberate steps. The rewrite attempt showed that not every change survives contact with production, and that the humble incremental fix is often the right answer.
+The runner is the silent gatekeeper of every submission in our curriculum. It started life as a monolithic function with hidden production problems, and it grew into a service that needed attention. The refactoring fixed concurrency, security, input validation, observability, and the memory cost of extraction in small, deliberate steps. The rewrite attempt showed that not every change survives contact with production. The memory audit showed that one of its ideas was right. The second attempt changed one thing and survived.
 
-The service now handles concurrent learners safely, rejects malicious archives before they can do damage, keeps itself alive through panics, and tells us exactly what happened for every request. It is still a work in progress, because production services always are. But it is in a much better place than the day we started, and we learned more from the process than from any of the individual fixes.
+The service now handles concurrent learners safely, streams archives instead of buffering them, rejects malicious archives before they can do damage, restores the capability drop with one documented shell exception, keeps itself alive through panics, and tells us exactly what happened for every request. It is still a work in progress, because production services always are. But it is in a much better place than the day we started, and we learned more from the process than from any of the individual fixes.
