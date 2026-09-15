@@ -191,28 +191,6 @@ The memory cost is now roughly the upload itself plus a small copy buffer for th
 
 That is the lesson of the rewrite, stated more precisely than we could state it at the time. The rewrite failed as a package. It did not fail as a set of ideas. Streaming was right; changing the structure, the timing, and the cancellation model at the same time was wrong. The second time, we changed one thing.
 
-## The Edge-Case Pass
-
-The happy path was never the whole job. A service that runs untrusted files has to be boring at the edges, because the edges are where the strange files arrive.
-
-The upload limit now returns a clear `upload too large` message instead of a generic read failure. The ZIP reader strips leading slashes, cleans every path, rejects `..`, skips symlinks and devices, and requires every entry to produce exactly the number of bytes it declared. These are small checks, but they are the difference between a parser and a liability.
-
-Every Docker call has a deadline: 30 seconds for normal calls, two minutes for the copy, five minutes for a pull, and 30 seconds for the test. A stuck daemon returns an error with the step name instead of holding a slot forever. A container wait error is returned to the caller; it no longer panics.
-
-Startup cleanup moved out of package initialisation and into the server binary. Before, running `go test` could delete the containers and volumes of a live runner on the same Docker daemon. Now tests leave live resources alone, and only the server performs cleanup at start. The HTTP server also has a 10-second header timeout, 15-minute read and write timeouts, and a one-minute idle timeout. The long read and write windows cover the queue and the image pull; the short header and idle timeouts cover the cheap cases.
-
-## The Supporting Work
-
-Not everything in this effort was about the hot path. Several changes improved the service without touching the request flow at all.
-
-The Dockerfile got a long-overdue cleanup. We tightened the multi-stage build, copied only the dependency files before downloading modules so the layer cache actually works, and added `-s -w` flags to strip debug information from the binary. The result is a smaller image and faster rebuilds. We also trimmed the base image by installing the timezone data, copying the UTC zone, and removing it again, so the final image carries no dead weight. The base tags stay on `golang:1-alpine` and `alpine:3` on purpose. Both projects keep backwards compatibility, and we prefer to stay current, so the tags stay floating. The trade-off is a base image that can move without a commit; we accept it.
-
-The Go version and its dependencies were bumped on a schedule. Over the course of the effort we moved from Go 1.22 to 1.27, handled a deprecation in the Docker client API, and let dependabot keep the transitive dependencies current. The direct Docker client and `x/sync` dependencies are on their current releases. None of these changes is exciting, and all of them are necessary. A service that runs untrusted code cannot afford to sit on outdated dependencies.
-
-The test suite grew with the work. It covers the ZIP shapes we see in practice, path traversal, absolute paths, symlinks, size mismatches, the image cache, the capability mapping, and the error paths. The count is 28 tests, run with the race detector. CI runs the build, `go vet`, and the race tests on every push. That is not a large suite for a service this small, but it is enough to catch the mistakes that matter.
-
-We also ran `shellcheck` against the deployment scripts and fixed everything it flagged. It is a small thing, but the scripts are the surface that operators touch, and clean, consistent scripts are part of operational hygiene.
-
 ## Lessons Learned
 
 Looking back at the whole effort, these are the lessons that stuck.
